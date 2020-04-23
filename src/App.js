@@ -1,9 +1,28 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { Component } from "react";
+import { Cards, Chart, CountryPicker } from "./components";
+import styles from "./App.module.css";
+import { fetchData } from "./api";
 
-function App() {
-  return <div className="App">Hello World!</div>;
+class App extends Component {
+  state = {
+    data: {},
+  };
+  async componentDidMount() {
+    const fdata = await fetchData();
+
+    this.setState({ data: fdata });
+  }
+
+  render() {
+    const { data } = this.state;
+    return (
+      <div className={styles.container}>
+        <Cards data={data} />
+        <CountryPicker />
+        <Chart />
+      </div>
+    );
+  }
 }
 
 export default App;
